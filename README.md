@@ -1,13 +1,17 @@
 #EMPLOYEEAPP-BACKEND
-This springboot project was created by spring.io.initializer.
+This springboot project was created by spring.io.initializer
 
 #REQUIREMENTS:
 
 For building and running the application you need:
 
     JDK 1.8
-    Maven 4
-	
+    Maven 3+
+
+Please ensure by checking the version by opening the cmd terminal: 
+1. java -version
+2. mvn -version
+ 	
 #VERSION DETAILS OF THE FRAMEWORKS USED
 
 1. Spring Boot 2.4
@@ -41,6 +45,12 @@ insert into departments(department_name) values ('IT');
 
 insert into managers(manager_name) values ('ABC');
 insert into managers(manager_name) values ('DEF');
+
+insert into employees(first_name,last_name,email,phone_number,salary,manager_id,department,created_at,hire_date) 
+values('nayana','shriyan','sdf@gb.in','123-456-7890',23.14,1,1,CAST(CURRENT_DATE AS TIMESTAMP),CAST(CURRENT_DATE AS TIMESTAMP));
+insert into employees(first_name,last_name,email,phone_number,salary,manager_id,department,created_at,hire_date) 
+values('Jane','Doe','sdf@gb.in','123-456-7890',23.14,2,1,CAST(CURRENT_DATE AS TIMESTAMP),CAST(CURRENT_DATE AS TIMESTAMP));
+
 
 6. Once done,hit the http://localhost:8080/api/employees
    This is the REST API call for fetching the employees based on page size.
