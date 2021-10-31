@@ -24,28 +24,14 @@ public class EmployeeController {
 	 @Autowired
 	 private IEmployeeRepository employeeRepository;
 
-	   /* @GetMapping("/employees")
-	    public ResponseEntity<List<Employee>> getAllEmployees() {
-	    	try {
-				List<Employee> list = employeeRepository.findAll();
-				
-				if (list.isEmpty() || list.size() == 0) {
-					return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-				}
-				
-				return new ResponseEntity<>(list, HttpStatus.OK);
-			} catch (Exception e) {
-				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-	    }*/
+	   
 	    
 	    @GetMapping("/employees")
-	    public Page<Employee> list(@RequestParam(name = "page", defaultValue = "0") int page,
+	    public Page<Employee> getAllEmployees(@RequestParam(name = "page", defaultValue = "0") int page,
 	                                   @RequestParam(name = "size", defaultValue = "10") int size) {
 	      PageRequest pageRequest = PageRequest.of(page, size);
 	      Page<Employee> pageResult = employeeRepository.findAll(pageRequest);
 	      List<Employee> employeeList = pageResult.toList();
-
 	      return new PageImpl<>(employeeList, pageRequest, pageResult.getTotalElements());
 
 	    }
@@ -53,7 +39,7 @@ public class EmployeeController {
 	   
 
 	    @GetMapping("/employees/{id}")
-	    public ResponseEntity < Employee > getEmployeeById(@PathVariable(value = "id") Long employeeId)
+	    public ResponseEntity <Employee> getEmployeeById(@PathVariable(value = "id") Long employeeId)
 	    throws ResourceNotFoundException {
 	        Employee employee = employeeRepository.findById(employeeId)
 	            .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
@@ -61,7 +47,7 @@ public class EmployeeController {
 	    }
 
 	    @PostMapping("/employees")
-	    public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) {
+	    public ResponseEntity<Employee> saveEmployee(@Valid @RequestBody Employee employee) {
 	    	try {
 				return new ResponseEntity<>(employeeRepository.save(employee), HttpStatus.OK);
 			} catch (Exception e) {
@@ -69,25 +55,17 @@ public class EmployeeController {
 			}
 	    }
 	    
-	 
 
-	    @PutMapping("/employees/{id}")
-	    public ResponseEntity <Employee> updateEmployee(@PathVariable(value = "id") Long employeeId,
-	         @RequestBody Employee employee) throws ResourceNotFoundException {
-	        
-	        final Employee updatedEmployee = employeeRepository.save(employee);
-	        return ResponseEntity.ok(updatedEmployee);
-	    }
 
 	    @DeleteMapping("/employees/{id}")
-	    public Map < String, Boolean > deleteEmployee(@PathVariable(value = "id") Long employeeId)
+	    public Map<String,Boolean > deleteEmployee(@PathVariable(value = "id") Long employeeId)
 	    throws ResourceNotFoundException {
 	        Employee employee = employeeRepository.findById(employeeId)
 	            .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
 
 	        employeeRepository.delete(employee);
-	        Map < String, Boolean > response = new HashMap < > ();
-	        response.put("deleted", Boolean.TRUE);
+	        Map <String, Boolean > response = new HashMap < > ();
+	        response.put("Employee with employeeId" + employeeId + "deleted successfully", Boolean.TRUE);
 	        return response;
 	    }
 
